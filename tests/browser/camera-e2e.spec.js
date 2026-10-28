@@ -1,12 +1,51 @@
+
 import { test, expect } from "@playwright/test";
 
 test.describe("Real Browser Media Capture E2E", () => {
   test.beforeEach(async ({ page }) => {
-    page.on("console", (msg) => console.info("PAGE LOG:", msg.text()));
-    page.on("pageerror", (err) => console.info("PAGE ERROR:", err.message));
+    // Diagnostic: identify missing resources and failed network requests.
+    page.on("response", (response) => {
+      if (response.status() === 404) {
+        console.error(
+          "[HTTP 404]",
+          response.status(),
+          response.url()
+        );
+      }
+    });
+
+    page.on("requestfailed", (request) => {
+      console.error(
+        "[REQUEST FAILED]",
+        request.url(),
+        request.failure()?.errorText
+      );
+    });
+
+    page.on("console", (msg) => {
+      console.info("PAGE LOG:", msg.text());
+
+      if (
+        msg.type() === "error" &&
+        msg.text().includes("Failed to load resource")
+      ) {
+        console.error(
+          "[RESOURCE ERROR LOCATION]",
+          msg.location()
+        );
+      }
+    });
+
+    page.on("pageerror", (err) => {
+      console.error("PAGE ERROR:", err.message);
+    });
 
     await page.goto("http://localhost:3344/index.html");
-    await page.waitForFunction(() => Boolean(window.sdk?.createCamera), { timeout: 10000 });
+
+    await page.waitForFunction(
+      () => Boolean(window.sdk?.createCamera),
+      { timeout: 10000 }
+    );
   });
 
   test("initializes camera preview and plays video frames", async ({ page }) => {
@@ -14,15 +53,20 @@ test.describe("Real Browser Media Capture E2E", () => {
       const videoEl = document.getElementById("preview-video");
       const camera = window.sdk.createCamera({
         resolution: "720p",
-        onCapture: (media) => { window.sdk.lastCapture = media; },
+        onCapture: (media) => {
+          window.sdk.lastCapture = media;
+        },
       });
+
       window.sdk.activeCamera = camera;
       camera.attachPreview(videoEl);
       await camera.open();
 
-      // Wait until video has metadata and is playing
       await new Promise((resolve) => {
-        if (videoEl.readyState >= 2 && videoEl.videoWidth > 0) return resolve();
+        if (videoEl.readyState >= 2 && videoEl.videoWidth > 0) {
+          return resolve();
+        }
+
         videoEl.onloadeddata = () => resolve();
       });
 
@@ -44,6 +88,7 @@ test.describe("Real Browser Media Capture E2E", () => {
     const photoInfo = await page.evaluate(async () => {
       const videoEl = document.getElementById("preview-video");
       const camera = window.sdk.createCamera();
+
       window.sdk.activeCamera = camera;
       camera.attachPreview(videoEl);
       await camera.open();
@@ -78,14 +123,14 @@ test.describe("Real Browser Media Capture E2E", () => {
     const videoInfo = await page.evaluate(async () => {
       const videoEl = document.getElementById("preview-video");
       const camera = window.sdk.createCamera({ audio: false });
+
       window.sdk.activeCamera = camera;
       camera.attachPreview(videoEl);
       await camera.open();
 
       camera.startRecording({ timeSlice: 250 });
 
-      // Record for 1.2 seconds
-      await new Promise((r) => setTimeout(r, 1200));
+      await new Promise((resolve) => setTimeout(resolve, 1200));
 
       const recordedMedia = await camera.stopRecording();
 
@@ -107,12 +152,16 @@ test.describe("Real Browser Media Capture E2E", () => {
     const trackStatus = await page.evaluate(async () => {
       const videoEl = document.getElementById("preview-video");
       const camera = window.sdk.createCamera();
+
       camera.attachPreview(videoEl);
+
       const stream = await camera.open();
       const track = stream.getVideoTracks()[0];
 
       const readyStateBefore = track.readyState;
+
       camera.close();
+
       const readyStateAfter = track.readyState;
 
       return {
@@ -144,13 +193,10 @@ test.describe("Real Browser Media Capture E2E", () => {
         },
       });
 
-      // Wait a moment for mount
-      await new Promise((r) => setTimeout(r, 400));
+      await new Promise((resolve) => setTimeout(resolve, 400));
 
-      // Trigger photo capture via widget
       await widget._takePhoto();
 
-      // Unmount widget
       widget.unmount();
 
       return {
