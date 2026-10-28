@@ -1,0 +1,199 @@
+/* Scoped styles for media-capture-sdk ready-to-use UI */
+.mc-capture-widget {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  background-color: #12141a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #f1f5f9;
+  user-select: none;
+}
+
+.mc-preview-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mc-preview-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mc-preview-video.mc-mirrored {
+  transform: scaleX(-1);
+}
+
+.mc-recording-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.mc-recording-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  animation: mc-pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes mc-pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.mc-error-banner {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  left: 12px;
+  background: rgba(220, 38, 38, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: none;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.mc-controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #181b22;
+  border-top: 1px solid #282d37;
+}
+
+.mc-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mc-mode-tabs {
+  display: flex;
+  background: #232732;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.mc-tab-button {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.mc-tab-button.mc-active {
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+
+.mc-dropdowns {
+  display: flex;
+  gap: 8px;
+}
+
+.mc-select {
+  background: #232732;
+  color: #f1f5f9;
+  border: 1px solid #333a48;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+
+.mc-select:focus {
+  border-color: #3b82f6;
+}
+
+.mc-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.mc-btn-shutter {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  background: #3b82f6;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease, background-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mc-btn-shutter:hover {
+  transform: scale(1.05);
+}
+
+.mc-btn-shutter:active {
+  transform: scale(0.95);
+}
+
+.mc-btn-shutter.mc-recording {
+  background: #ef4444;
+  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+}
+
+.mc-btn-secondary {
+  background: #232732;
+  color: #f1f5f9;
+  border: 1px solid #333a48;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.mc-btn-secondary:hover {
+  background: #2d3341;
+}

@@ -1,0 +1,98 @@
+{
+  "name": "media-capture-sdk",
+  "version": "1.0.0",
+  "description": "Production-ready, client-side JavaScript Media Capture SDK for browser camera access, live preview, photo capture, video recording, screen capture, and visual filters.",
+  "author": "Media Capture SDK Contributors",
+  "license": "MIT",
+  "keywords": [
+    "media-capture",
+    "camera",
+    "video-recording",
+    "webcam",
+    "photo-capture",
+    "screen-capture",
+    "webrtc",
+    "mediastream",
+    "mediarecorder",
+    "video-editor"
+  ],
+  "homepage": "https://github.com/media-capture-sdk/media-capture-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/media-capture-sdk/media-capture-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/media-capture-sdk/media-capture-sdk/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./ui": {
+      "types": "./dist/ui/index.d.ts",
+      "import": "./dist/ui/index.js",
+      "require": "./dist/ui/index.cjs"
+    },
+    "./ui/styles.css": "./dist/ui/styles.css",
+    "./filters": {
+      "types": "./dist/filters/index.d.ts",
+      "import": "./dist/filters/index.js",
+      "require": "./dist/filters/index.cjs"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:browser": "playwright test",
+    "test:all": "npm run test && npm run test:browser",
+    "lint": "eslint src tests",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0 || >=18.0.0 || >=19.0.0",
+    "react-dom": ">=16.8.0 || >=18.0.0 || >=19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^22.13.0",
+    "@types/react": "^19.0.0",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.20.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

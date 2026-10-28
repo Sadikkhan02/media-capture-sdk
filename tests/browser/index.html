@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Media Capture SDK Browser Test Page</title>
+  <link rel="stylesheet" href="/dist/ui/styles.css" />
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: white; padding: 20px; }
+    #preview-video { width: 320px; height: 240px; background: black; }
+    #ui-container { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Media Capture SDK Test Page</h1>
+
+  <video id="preview-video" autoplay playsinline muted></video>
+
+  <div id="results">
+    <div id="status">idle</div>
+    <div id="video-dimensions">0x0</div>
+    <div id="photo-result">none</div>
+    <div id="video-result">none</div>
+  </div>
+
+  <div id="ui-container"></div>
+
+  <script type="module">
+    import { createCamera } from "/dist/index.js";
+    import { createCameraUI } from "/dist/ui/index.js";
+
+    window.sdk = {
+      createCamera,
+      createCameraUI,
+      activeCamera: null,
+      lastCapture: null,
+      lastError: null,
+    };
+  </script>
+</body>
+</html>
